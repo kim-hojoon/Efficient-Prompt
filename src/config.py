@@ -67,7 +67,7 @@ def setup_path(args):
 def setup_dataloader(args):
     # load from extracted visual feature
     if args.dataset == 'HMDB51-feature-30fps-center':
-        feature_root = '../feat/HMDB'
+        feature_root = '../feat/HMDB/'
     # More datasets to be continued
     else:
         raise ValueError ('Unknown dataset.')
