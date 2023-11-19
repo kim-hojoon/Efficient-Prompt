@@ -23,6 +23,8 @@ Chen Ju, Tengda Han, Kunhao Zheng, Ya Zhang, Weidi Xie. 　**ECCV 2022**.
   
   Unzip the features, and put them under the *./feat* folder.
 
+  You can put another features under the *./feat* folder.
+
 * Download the pre-train model of HMDB51 from [here](https://pan.baidu.com/s/1rpPlCYx-j7A0NIk5MlVI0w?pwd=3sc4), put it under the *./models* folder.
   
   After the preparation work, the whole project should have the following structure:
@@ -37,7 +39,12 @@ Chen Ju, Tengda Han, Kunhao Zheng, Ya Zhang, Weidi Xie. 　**ECCV 2022**.
   │       ├── #2_Gum_chew_h_nm_np1_fr_med_0.npy
   │       ├── #2_Gum_chew_h_nm_np1_fr_med_1.npy
   │       |   ...  
-  │  
+  |
+  │   └── ...
+  |       ├── #2_Gum_chew_h_nm_np1_fr_med_0.npy
+  |       ├── #2_Gum_chew_h_nm_np1_fr_med_1.npy
+  |       |   ...  
+  |    
   ├── models                                    
   │   └── HMDB_best.pth.tar
   │   
@@ -63,6 +70,20 @@ python main.py -j 8 --prefix 16 --postfix 16 --tfm_layers 1 --tfm_heads 8 --data
 ```python
 cd ./src
 python main.py -j 8 --prefix 16 --postfix 16 --tfm_layers 1 --tfm_heads 8 --dataset HMDB51-feature-30fps-center --temporal 1 --batchsize 64 --lr 1e-4 --featnorm 1 --verbose Temp --test ../models/HMDB_best.pth.tar
+```
+
+### [Optional] Training with Another HMDB51 Feature
+
+```python
+cd ./src
+python main.py -j 8 --prefix 16 --postfix 16 --tfm_layers 1 --tfm_heads 8 --dataset HMDB51-another-feature --temporal 1 --batchsize 64 --lr 1e-4 --featnorm 1 --verbose Temp --num_iterations 1100 --save_iterations 55 --feature feature_directory_name
+```
+
+### [Optional] Evaluating with Another HMDB51 Feature
+
+```python
+cd ./src
+python main.py -j 8 --prefix 16 --postfix 16 --tfm_layers 1 --tfm_heads 8 --dataset HMDB51-another-feature --temporal 1 --batchsize 64 --lr 1e-4 --featnorm 1 --verbose Temp --test path_to_checkpoint --feature feature_directory_name
 ```
 
 ## Reference

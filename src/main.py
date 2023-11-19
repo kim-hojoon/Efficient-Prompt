@@ -35,7 +35,10 @@ def main(args):
                            shuffle=False, pin_memory=False, drop_last=False)
 
     # initialize models
-    print('==> reading meta data for {}'.format(args.dataset))
+    if args.feature is not None:
+        print('==> reading meta data for {} -> {}'.format(args.dataset, args.feature))
+    else:
+        print('==> reading meta data for {}'.format(args.dataset))
     actionlist, actiondict, actiontoken = text_prompt(dataset=args.dataset, clipbackbone=args.backbone, device=device)
 
     print('==> initialising action recognition model')
@@ -115,7 +118,8 @@ if __name__ == "__main__":
 
     parser.add_argument('--backbone', type=str, default='ViT-B/16', choices=['ViT-B/16'])
     parser.add_argument('--dataset', type=str, default='HMDB51-feature-30fps-center', 
-                         choices=['HMDB51-feature-30fps-center','Debug',])
+                         choices=['HMDB51-feature-30fps-center', 'HMDB51-another-feature' ,'Debug',])
+    parser.add_argument('--feature', type=str, default=None)
 
     args = parser.parse_args()
     main(args)

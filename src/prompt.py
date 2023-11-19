@@ -12,7 +12,7 @@ def convert_to_token(xh):
 
 def text_prompt(dataset='HMDB51', clipbackbone='ViT-B/16', device='cpu'):
     actionlist, actionprompt, actiontoken = [], {}, []
-    numC = {'HMDB51-feature-30fps-center': 51,}
+    numC = {'HMDB51-feature-30fps-center': 51,'HMDB51-another-feature': 51,}
 
     # load the CLIP model
     clipmodel, _ = clip.load(clipbackbone, device=device, jit=False)
@@ -20,7 +20,7 @@ def text_prompt(dataset='HMDB51', clipbackbone='ViT-B/16', device='cpu'):
         paramclip.requires_grad = False
 
     # convert to token, will automatically padded to 77 with zeros
-    if dataset == 'HMDB51-feature-30fps-center':
+    if dataset in ['HMDB51-feature-30fps-center', 'HMDB51-another-feature']:
         meta = open("../data/HMDB51/HMDB51_action.list", 'rb')
         actionlist = meta.readlines()
         meta.close()
