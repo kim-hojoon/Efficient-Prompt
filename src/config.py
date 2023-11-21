@@ -28,6 +28,7 @@ def setup_path(args):
 
     if args.test or args.resume:
         if args.test:
+            print(args.test)
             basename = args.test.split('/')[-2]
         elif args.resume:
             basename = args.resume.split('/')[-2]
@@ -71,7 +72,8 @@ def setup_dataloader(args):
         feature_root = '../feat/HMDB/'
     elif args.dataset == 'HMDB51-another-feature':
         assert args.feature is not None
-        feature_root = f'../feat/{args.feature}/'         
+        # feature_root = f'../feat/{args.feature}/'         
+        feature_root = args.feature
     # More datasets to be continued
     else:
         raise ValueError ('Unknown dataset.')
