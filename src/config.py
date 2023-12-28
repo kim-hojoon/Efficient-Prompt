@@ -81,7 +81,7 @@ def setup_dataloader(args):
     if args.dataset.startswith('HMDB'):
         trainactions, valactions = [], []
         trn_dataset = readFeatureHMDB51(root=feature_root, frames=args.numFrames, fpsR=[1, 1/2, 1/3, 1/3, 1/3, 1/4], ensemble=1, mode='train')
-        val_dataset = readFeatureHMDB51(root=feature_root, frames=args.numFrames, fpsR=[1, 1/2, 1/3, 1/3, 1/3, 1/4], ensemble=args.valEnsemble, mode='val')
+        val_dataset = readFeatureHMDB51(root=feature_root, frames=args.numFrames, fpsR=[1, 1/2, 1/3, 1/3, 1/3, 1/4], ensemble=args.valEnsemble, mode='val', sampling_fps=args.inference_fps)
     # More datasets to be continued
 
     return [trn_dataset, val_dataset, trainactions, valactions]

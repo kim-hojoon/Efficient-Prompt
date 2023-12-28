@@ -116,6 +116,8 @@ if __name__ == "__main__":
     parser.add_argument('--save_iterations', type=int, default=1e3)
     parser.add_argument('--dir_postfix', type=str, default='')
 
+    parser.add_argument('--inference_fps', type=int, default=None, choices=[None, 3])
+
     parser.add_argument('--backbone', type=str, default='ViT-B/16', choices=['ViT-B/16'])
     parser.add_argument('--dataset', type=str, default='HMDB51-feature-30fps-center', 
                          choices=['HMDB51-feature-30fps-center', 'HMDB51-another-feature' ,'Debug',])
