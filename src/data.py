@@ -15,7 +15,7 @@ from torch.utils.data import Dataset
 
 
 class readFeatureHMDB51(Dataset):
-    def __init__(self, root: str, frames: int, fpsR: list, ensemble: int, mode: str, sampling_fps=None):
+    def __init__(self, root: str, frames: int, fpsR: list, ensemble: int, mode: str, sampling_fps=None, fixed_fps=None):
         self.root = root
         self.mode = mode
         self.fpsR = fpsR
@@ -23,6 +23,7 @@ class readFeatureHMDB51(Dataset):
         self.ensemble = ensemble
         self.name_map = json.load(open('../data/HMDB51/HMDB51_clsname.json'))
         self.sampling_fps=sampling_fps
+        self.fixed_fps = fixed_fps
 
         if mode in ['test', 'val']:
             mode_ = 'test'
@@ -61,7 +62,16 @@ class readFeatureHMDB51(Dataset):
         return filled_list
 
     def _select_indices(self, numF):
-        if self.sampling_fps is not None:
+        if self.fixed_fps is not None:
+            allInd = np.arange(numF)
+            if len(allInd) < self.frames: 
+                allInd = self.fill_list_to_length(allInd, self.frames)
+                assert len(allInd) == self.frames
+            start = np.random.randint(low=0, high=len(allInd) - self.frames + 1)
+            indices = allInd[start:start + self.frames]
+            return indices
+
+        elif self.sampling_fps is not None:
             fpsR_ = 1 / 30 * self.sampling_fps
             # fpsR_ = 1 / 10      # (1 / 30fps * 3fps)
             allInd = np.arange(np.random.randint(1 / fpsR_), numF, 1 / fpsR_, dtype=int)
@@ -71,6 +81,7 @@ class readFeatureHMDB51(Dataset):
             start = np.random.randint(low=0, high=len(allInd) - self.frames + 1)
             indices = allInd[start:start + self.frames]
             return indices
+        
         else:
             fpsR_ = random.choice(self.fpsR)
             allInd = np.linspace(np.random.randint(1 / fpsR_), numF - 1, num=round(fpsR_ * numF), endpoint=True, dtype=int)

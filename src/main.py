@@ -116,7 +116,8 @@ if __name__ == "__main__":
     parser.add_argument('--save_iterations', type=int, default=1e3)
     parser.add_argument('--dir_postfix', type=str, default='')
 
-    parser.add_argument('--inference_fps', type=int, default=None, choices=[None, 3])
+    parser.add_argument('--inference_fps', type=int, default=None, choices=[None, 3], help="when saved feature is saved for all frames, select frames based INFERENCE_FPS")
+    parser.add_argument('--fixed_fps', type=int, default=None, choices=[None, 3], help="Indicate saved feature is already FIXED_FPS")
 
     parser.add_argument('--backbone', type=str, default='ViT-B/16', choices=['ViT-B/16'])
     parser.add_argument('--dataset', type=str, default='HMDB51-feature-30fps-center', 
