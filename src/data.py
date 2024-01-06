@@ -96,13 +96,14 @@ class readFeatureHMDB51(Dataset):
         action_name = self.name_map[action_name_]
         feature = torch.from_numpy(np.load(vpath))
         num_frames = feature.size(0)
-        if num_frames > self.frames:
-            indices = self._select_indices(num_frames)
-            out = feature[indices]
-        else:
-            # pad by the last feature
-            out = feature[-1, :][None, :].repeat([self.frames, 1])
-            out[0:num_frames, :] = feature
+        # if num_frames > self.frames:
+        # apply best_effort # TODO: FIX that branch would be determined through arg
+        indices = self._select_indices(num_frames)
+        out = feature[indices]
+        # else:
+        #     # pad by the last feature
+        #     out = feature[-1, :][None, :].repeat([self.frames, 1])
+        #     out[0:num_frames, :] = feature
         return out, action_name
 
 # More datasets to be continued
